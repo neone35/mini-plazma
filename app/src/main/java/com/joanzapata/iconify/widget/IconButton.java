@@ -6,7 +6,7 @@ import android.widget.Button;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.internal.HasOnViewAttachListener;
 
-public class IconButton extends Button implements HasOnViewAttachListener {
+public class IconButton extends androidx.appcompat.widget.AppCompatButton implements HasOnViewAttachListener {
 
     private HasOnViewAttachListenerDelegate delegate;
 

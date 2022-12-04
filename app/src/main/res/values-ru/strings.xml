@@ -223,6 +223,7 @@
     <string name="text_single_step_mode">Включить режим одного шага</string>
     <string name="text_single_step_mode_description">посылает строку gcode к grbl и ждет ок или ошибки, сообщение ответа перед отправкой следующей строки gcode</string>
     <string name="text_warning_error_20">WARNING: You should not enable this unless you know what you are doing.</string>
+    <string name="bluetooth_rationale">This app needs bluetooth connection to work</string>
 
     <string-array name="preference_entries_default_connection">
         <item>Bluetooth</item>

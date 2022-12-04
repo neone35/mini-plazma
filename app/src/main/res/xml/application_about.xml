@@ -40,7 +40,7 @@
         android:title="@string/text_app_rating">
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="market://details?id=in.co.gorest.grblcontroller"/>
+            android:data="market://details?id=com.arturmaslov.miniplazma"/>
     </Preference>
 
     <Preference
@@ -50,7 +50,7 @@
         android:title="@string/text_buy_app">
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="market://details?id=in.co.gorest.grblcontroller.plus"/>
+            android:data="market://details?id=com.arturmaslov.miniplazma.plus"/>
     </Preference>
 
     <Preference

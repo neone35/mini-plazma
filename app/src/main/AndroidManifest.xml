@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="in.co.gorest.grblcontroller">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -38,7 +39,8 @@
             android:supportsPictureInPicture="false"
             android:theme="@style/SplashTheme"
             tools:targetApi="n"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="LockedOrientationActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -115,7 +117,7 @@
         <meta-data android:name="DATABASE" android:value="grblcontroller.db" />
         <meta-data android:name="VERSION" android:value="2" />
         <meta-data android:name="QUERY_LOG" android:value="false" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="in.co.gorest.grblcontroller.model" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.arturmaslov.miniplazma.model" />
 
     </application>
 

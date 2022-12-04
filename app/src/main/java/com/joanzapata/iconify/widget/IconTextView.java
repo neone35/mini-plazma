@@ -6,7 +6,7 @@ import android.widget.TextView;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.internal.HasOnViewAttachListener;
 
-public class IconTextView extends TextView implements HasOnViewAttachListener {
+public class IconTextView extends androidx.appcompat.widget.AppCompatTextView implements HasOnViewAttachListener {
 
     private HasOnViewAttachListenerDelegate delegate;
 

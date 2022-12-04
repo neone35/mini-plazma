@@ -29,24 +29,26 @@
     android:layout_height="match_parent"
     tools:context=".NotificationArchiveActivity">
 
-    <LinearLayout android:orientation="vertical"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical" />
 
         <TextView
             android:id="@+id/empty_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:layout_marginTop="20dp"
-            android:visibility="gone"
-            android:text="No new notifications" />
+            android:gravity="center"
+            android:text="No new notifications"
+            android:visibility="gone" />
 
     </LinearLayout>
 

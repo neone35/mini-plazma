@@ -7,8 +7,8 @@
         android:shortcutLongLabel="@string/app_shortcut_long_text_settings">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="in.co.gorest.grblcontroller"
-            android:targetClass="in.co.gorest.grblcontroller.SettingsActivity" />
+            android:targetPackage="com.arturmaslov.miniplazma"
+            android:targetClass="com.arturmaslov.miniplazma.SettingsActivity" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 
@@ -20,8 +20,8 @@
         android:shortcutLongLabel="@string/app_shortcut_long_text_about">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="in.co.gorest.grblcontroller"
-            android:targetClass="in.co.gorest.grblcontroller.AboutActivity" />
+            android:targetPackage="com.arturmaslov.miniplazma"
+            android:targetClass="com.arturmaslov.miniplazma.AboutActivity" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 

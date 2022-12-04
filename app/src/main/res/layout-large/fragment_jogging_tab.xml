@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="machineStatus" type="in.co.gorest.grblcontroller.listeners.MachineStatusListener" />
+        <variable name="machineStatus" type="com.arturmaslov.miniplazma.listeners.MachineStatusListener" />
     </data>
 
     <ScrollView
@@ -50,7 +50,7 @@
 
                 <TableRow>
 
-                    <in.co.gorest.grblcontroller.helpers.AngledTextTopLeft
+                    <com.arturmaslov.miniplazma.helpers.AngledTextTopLeft
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:id="@+id/jog_xy_top_left"
                         android:tag="$J=%1$sG91X-%2$sY%2$sF%3$s"
@@ -70,7 +70,7 @@
                         android:text="{fa-caret-up 52dp}"
                         tools:ignore="HardcodedText" />
 
-                    <in.co.gorest.grblcontroller.helpers.AngledText45
+                    <com.arturmaslov.miniplazma.helpers.AngledText45
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:id="@+id/jog_xy_top_right"
                         android:tag="$J=%1$sG91X%2$sY%2$sF%3$s"
@@ -140,7 +140,7 @@
 
                 <TableRow>
 
-                    <in.co.gorest.grblcontroller.helpers.AngledTextBottomLeft
+                    <com.arturmaslov.miniplazma.helpers.AngledTextBottomLeft
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:id="@+id/jog_xy_bottom_left"
                         android:tag="$J=%1$sG91X-%2$sY-%2$sF%3$s"
@@ -160,7 +160,7 @@
                         android:text="{fa-caret-down 52dp}"
                         tools:ignore="HardcodedText" />
 
-                    <in.co.gorest.grblcontroller.helpers.AngledText225
+                    <com.arturmaslov.miniplazma.helpers.AngledText225
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                         android:id="@+id/jog_xy_bottom_right"
                         android:tag="$J=%1$sG91X%2$sY-%2$sF%3$s"

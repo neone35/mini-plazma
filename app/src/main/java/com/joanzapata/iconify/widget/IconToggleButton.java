@@ -6,7 +6,7 @@ import android.widget.ToggleButton;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.internal.HasOnViewAttachListener;
 
-public class IconToggleButton extends ToggleButton implements HasOnViewAttachListener {
+public class IconToggleButton extends androidx.appcompat.widget.AppCompatToggleButton implements HasOnViewAttachListener {
 
     private HasOnViewAttachListenerDelegate delegate;
 
