@@ -29,6 +29,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
+
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,6 +73,8 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     private EnhancedSharedPreferences sharedPref;
     private BlockingQueue<Integer> completedCommands;
     private CustomCommandsAsyncTask customCommandsAsyncTask;
+    private Integer probeType;
+    private Double probeStartPosition = null;
 
     public JoggingTabFragment() {}
 
@@ -196,6 +200,18 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 wposLayoutView.setOnLongClickListener(this);
             }
         }
+
+        // moved from ProbingTabFrament and renamed from "Probe" to "Auto Z"
+        IconButton startProbe = view.findViewById(R.id.start_probe);
+        startProbe.setOnClickListener(view1 -> new AlertDialog.Builder(getActivity())
+                .setTitle(getString(R.string.text_straight_probe))
+                .setMessage(getString(R.string.text_straight_probe_desc))
+                .setPositiveButton(getString(R.string.text_yes_confirm), (dialog, which) -> {
+                    probeType = Constants.PROBE_TYPE_NORMAL;
+                    doProbing();
+                })
+                .setNegativeButton(getString(R.string.text_cancel), null)
+                .show());
 
         return view;
     }
@@ -792,6 +808,31 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     public void onGrblOkEvent(GrblOkEvent event){
         if(customCommandsAsyncTask != null && customCommandsAsyncTask.getStatus() == AsyncTask.Status.RUNNING){
             completedCommands.offer(1);
+        }
+    }
+
+    private void doProbing(){
+        if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
+
+            fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
+
+            String probeDistance = sharedPref.getString(getString(R.string.preference_probing_distance), String.valueOf(Constants.PROBING_DISTANCE));
+            final String probeFeedRate = sharedPref.getString(getString(R.string.preference_probing_feed_rate), String.valueOf(Constants.PROBING_FEED_RATE));
+            final double distanceToProbe = machineStatus.getWorkPosition().getCordZ() - Double.parseDouble(probeDistance);
+            probeStartPosition = machineStatus.getMachinePosition().getCordZ();
+
+            // Wait for few milliseconds, just to make sure we got the parser state
+            new Handler().postDelayed(() -> {
+                String distanceMode = machineStatus.getParserState().distanceMode;
+                String unitSelection = machineStatus.getParserState().unitSelection;
+
+                fragmentInteractionListener.onGcodeCommandReceived("G38.3 Z" + distanceToProbe + " F" + probeFeedRate);
+                fragmentInteractionListener.onGcodeCommandReceived(distanceMode + unitSelection);
+            }, (Constants.GRBL_STATUS_UPDATE_INTERVAL + 100));
+
+
+        }else{
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle), true, true));
         }
     }
 

@@ -134,23 +134,15 @@ public class ProbingTabFragment extends BaseFragment {
         probingDistance.setText(sharedPref.getString(getString(R.string.preference_probing_distance), String.valueOf(Constants.PROBING_DISTANCE)) + this.editIcon);
 
         IconButton startProbe = view.findViewById(R.id.start_probe);
-        startProbe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new AlertDialog.Builder(getActivity())
-                        .setTitle(getString(R.string.text_straight_probe))
-                        .setMessage(getString(R.string.text_straight_probe_desc))
-                        .setPositiveButton(getString(R.string.text_yes_confirm), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                probeType = Constants.PROBE_TYPE_NORMAL;
-                                doProbing();
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.text_cancel), null)
-                        .show();
-
-            }
-        });
+        startProbe.setOnClickListener(view1 -> new AlertDialog.Builder(getActivity())
+                .setTitle(getString(R.string.text_straight_probe))
+                .setMessage(getString(R.string.text_straight_probe_desc))
+                .setPositiveButton(getString(R.string.text_yes_confirm), (dialog, which) -> {
+                    probeType = Constants.PROBE_TYPE_NORMAL;
+                    doProbing();
+                })
+                .setNegativeButton(getString(R.string.text_cancel), null)
+                .show());
 
         IconButton startToolOffset = view.findViewById(R.id.start_tool_length_offset);
         startToolOffset.setOnClickListener(new View.OnClickListener() {

@@ -314,6 +314,27 @@
 
             </TableLayout>
 
+            <TableLayout
+                android:layout_centerHorizontal="true"
+                android:stretchColumns="*"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="ObsoleteLayoutParam">
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:enabled="@{machineStatus.state.equals(machineStatus.STATE_IDLE)}"
+                        android:layout_weight="0.33"
+                        android:id="@+id/start_probe"
+                        android:text="@string/text_start_auto_z"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </TableRow>
+
+            </TableLayout>
+
         </LinearLayout>
 
     </ScrollView>

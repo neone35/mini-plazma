@@ -335,4 +335,5 @@
     <string name="text_single_step_mode_description">sends a line of gcode to grbl and waits for an ok or error: response message before sending the next line of gcode</string>
     <string name="text_warning_error_20">WARNING: You should not enable this unless you know what you are doing.</string>
     <string name="bluetooth_rationale">This app needs bluetooth connection to work</string>
+    <string name="text_start_auto_z">AUTO Z</string>
 </resources>
