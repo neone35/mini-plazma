@@ -113,6 +113,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+//        toolbar.setLogo(R.drawable.splash_logo);
         if(getSupportActionBar() != null) getSupportActionBar().setSubtitle(getString(R.string.text_not_connected));
 
         applicationSetup();
@@ -141,13 +142,13 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         setupTabLayout();
         checkPowerManagement();
 
-        String fcmToken = sharedPref.getString(getString(R.string.firebase_cloud_messaging_token), null);
-        boolean tokenSent = sharedPref.getBoolean(getString(R.string.firebase_cloud_messaging_token_sent), false);
-        if(fcmToken != null && !tokenSent) MyFirebaseMessagingService.sendRegistrationToServer(fcmToken);
+//        String fcmToken = sharedPref.getString(getString(R.string.firebase_cloud_messaging_token), null);
+//        boolean tokenSent = sharedPref.getBoolean(getString(R.string.firebase_cloud_messaging_token_sent), false);
+//        if(fcmToken != null && !tokenSent) MyFirebaseMessagingService.sendRegistrationToServer(fcmToken);
 
-        if(!this.hasPaidVersion()){
-            freeAppNotification();
-        }
+//        if(!this.hasPaidVersion()){
+//            freeAppNotification();
+//        }
 
     }
 
@@ -181,14 +182,12 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         new AlertDialog.Builder(this)
                 .setTitle("Grbl Controller +")
                 .setMessage("for more exiting features like job resume, job history, in app documentation, jog pad rotation, haptic feedback, additional AB axis support etc.. upgrade today")
-                .setPositiveButton("Upgrade", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.arturmaslov.miniplazma.plus")));
-                        }
-                        catch (android.content.ActivityNotFoundException anfe) {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.arturmaslov.miniplazma.plus")));
-                        }
+                .setPositiveButton("Upgrade", (dialog, which) -> {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.arturmaslov.miniplazma.plus")));
+                    }
+                    catch (ActivityNotFoundException anfe) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.arturmaslov.miniplazma.plus")));
                     }
                 })
                 .setNegativeButton("May be latter", null)
@@ -350,23 +349,27 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
         this.grblToast(message, false, false);
     }
 
-    @SuppressLint("ShowToast")
+
     protected void grblToast(String message, Boolean longToast, Boolean isWarning){
-        if(toastMessage == null){
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            if (toastMessage == null) {
+                toastMessage = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
+                toastMessage.setGravity(Gravity.FILL_HORIZONTAL | Gravity.TOP, 0, 120);
+                View view = toastMessage.getView();
+                view.setBackgroundResource(android.R.drawable.toast_frame);
+                TextView toastMessageText = view.findViewById(android.R.id.message);
+                toastMessageText.setTextColor(Color.parseColor("#ffffff"));
+            }
+
+            if (isWarning) {
+                toastMessage.getView().setBackgroundColor(Color.parseColor("#d50000"));
+            } else {
+                toastMessage.getView().setBackgroundColor(Color.parseColor("#646464"));
+            }
+        } else {
             toastMessage = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
-            toastMessage.setGravity(Gravity.FILL_HORIZONTAL|Gravity.TOP, 0, 120);
-            View view = toastMessage.getView();
-            view.setBackgroundResource(android.R.drawable.toast_frame);
-            TextView toastMessageText = view.findViewById(android.R.id.message);
-            toastMessageText.setTextColor(Color.parseColor("#ffffff"));
         }
-
-        if(isWarning){
-            toastMessage.getView().setBackgroundColor(Color.parseColor("#d50000"));
-        }else{
-            toastMessage.getView().setBackgroundColor(Color.parseColor("#646464"));
-        }
-
         toastMessage.setDuration(longToast ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
         toastMessage.setText(message);
         toastMessage.show();
