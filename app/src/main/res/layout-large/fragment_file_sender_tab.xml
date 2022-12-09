@@ -269,7 +269,7 @@
                 <TableRow>
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? @string/text_spindle_on_large : @string/text_spindle_off_large}'
+                        android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? @string/text_torch_on_large : @string/text_torch_off_large}'
                         android:padding="16dp"
                         android:textSize="24sp"
                         android:id="@+id/toggle_spindle"

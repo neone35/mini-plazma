@@ -352,6 +352,7 @@ public abstract class GrblActivity extends AppCompatActivity implements BaseFrag
 
     protected void grblToast(String message, Boolean longToast, Boolean isWarning){
 
+        // on API30+ toast.getView() is null as custom toasts are not allowed anymore
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             if (toastMessage == null) {
                 toastMessage = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);

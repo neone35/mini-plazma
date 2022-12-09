@@ -21,8 +21,6 @@
 
 package com.arturmaslov.miniplazma;
 
-import static com.arturmaslov.miniplazma.Constants.BT_PERMISSIONS;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -79,7 +77,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
         super.onCreate(savedInstanceState);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            PermissionHelper.requestBluetoothPermission(this, BluetoothConnectionActivity.this);
+            PermissionHelper.requestBtPermission(this, BluetoothConnectionActivity.this);
         }
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -112,9 +110,9 @@ public class BluetoothConnectionActivity extends GrblActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (!PermissionHelper.hasPermissions(this, permissions)) {
             if (PermissionHelper.shouldShowPermissionRationale(this, permissions)) {
-                PermissionHelper.showPermissionRationale(this, BluetoothConnectionActivity.this);
+                PermissionHelper.showBtPermissionRationale(this, BluetoothConnectionActivity.this);
             } else {
-                PermissionHelper.onPermissionDenied(this, BluetoothConnectionActivity.this);
+                PermissionHelper.onBtPermissionDenied(this, BluetoothConnectionActivity.this);
             }
         }
     }

@@ -22,16 +22,12 @@
 
 package com.arturmaslov.miniplazma;
 
-import static com.arturmaslov.miniplazma.Constants.BT_PERMISSIONS;
-import static com.arturmaslov.miniplazma.Constants.BT_PERMISSIONS_SETTING;
-
 import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -49,7 +45,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -74,7 +69,7 @@ public class DeviceListActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            PermissionHelper.requestBluetoothPermission(this, DeviceListActivity.this);
+            PermissionHelper.requestBtPermission(this, DeviceListActivity.this);
         }
 
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -127,9 +122,9 @@ public class DeviceListActivity extends Activity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (!PermissionHelper.hasPermissions(this, permissions)) {
             if (PermissionHelper.shouldShowPermissionRationale(this, permissions)) {
-                PermissionHelper.showPermissionRationale(this, DeviceListActivity.this);
+                PermissionHelper.showBtPermissionRationale(this, DeviceListActivity.this);
             } else {
-                PermissionHelper.onPermissionDenied(this, DeviceListActivity.this);
+                PermissionHelper.onBtPermissionDenied(this, DeviceListActivity.this);
             }
         }
     }

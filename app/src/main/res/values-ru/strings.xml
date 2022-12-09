@@ -305,5 +305,11 @@
         <item>460800</item>
         <item>921600</item>
     </string-array>
+    <string name="text_torch_on">горелка {fa-toggle-on 16dp @color/colorAccent}</string>
+    <string name="text_torch_off">горелка {fa-toggle-off 18dp}</string>
+    <string name="text_torch_on_large">горелка {fa-toggle-on 24dp @color/colorAccent}</string>
+    <string name="text_torch_off_large">горелка {fa-toggle-off 24dp}</string>
+    <string name="bt_permission_granted">Разрешение Bluetooth предоставлено</string>
+    <string name="bt_permission_not_granted">Разрешение Bluetooth не предоставлено</string>
 
 </resources>

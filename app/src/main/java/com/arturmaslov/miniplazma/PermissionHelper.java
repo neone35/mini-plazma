@@ -19,8 +19,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.arturmaslov.miniplazma.BuildConfig;
-
 import java.util.ArrayList;
 
 public class PermissionHelper {
@@ -153,7 +151,7 @@ public class PermissionHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.S)
-    public static void requestBluetoothPermission(Context ctx, Activity act) {
+    public static void requestBtPermission(Context ctx, Activity act) {
         String[] perms = new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN};
         if (!PermissionHelper.hasPermissions(ctx, perms)) {
             PermissionHelper.requestPermissions(act, perms, BT_PERMISSIONS);
@@ -161,7 +159,7 @@ public class PermissionHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.S)
-    public static void showPermissionRationale(Context ctx, Activity act) {
+    public static void showBtPermissionRationale(Context ctx, Activity act) {
         String[] perms = new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN};
         PermissionHelper.showDialog(ctx, "Permission", "App requires bluetooth permission.", "OK", new PermissionHelper.OnDialogCloseListener() {
             @Override
@@ -173,7 +171,7 @@ public class PermissionHelper {
         });
     }
 
-    public static void onPermissionDenied(Context ctx, Activity act) {
+    public static void onBtPermissionDenied(Context ctx, Activity act) {
         Toast.makeText(ctx, ctx.getString(R.string.bt_permission_not_granted), Toast.LENGTH_SHORT).show();
         PermissionHelper.showDialog(ctx, "Permission Setting", "Grant bluetooth permission from setting screen.", "OK", (dialog, buttonType) -> {
             if (buttonType == PermissionHelper.OnDialogCloseListener.TYPE_POSITIVE) {

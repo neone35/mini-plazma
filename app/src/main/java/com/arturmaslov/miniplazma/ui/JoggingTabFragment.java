@@ -40,6 +40,7 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 
+import com.arturmaslov.miniplazma.model.Overrides;
 import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconToggleButton;
 import com.warkiz.widget.IndicatorSeekBar;
@@ -185,16 +186,13 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
         for(int i=0; i<wposLayout.getChildCount(); i++){
             View wposLayoutView = wposLayout.getChildAt(i);
             if(wposLayoutView instanceof Button){
-                wposLayoutView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
-                            sendCommandIfIdle(view.getTag().toString());
-                            sendCommandIfIdle(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
-                            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_selected_coordinate_system) + view.getTag().toString()));
-                        }else{
-                            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle), true, true));
-                        }
+                wposLayoutView.setOnClickListener(view12 -> {
+                    if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE)){
+                        sendCommandIfIdle(view12.getTag().toString());
+                        sendCommandIfIdle(GrblUtils.GRBL_VIEW_PARSER_STATE_COMMAND);
+                        EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_selected_coordinate_system) + view12.getTag().toString()));
+                    }else{
+                        EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_machine_not_idle), true, true));
                     }
                 });
                 wposLayoutView.setOnLongClickListener(this);
@@ -212,6 +210,11 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 })
                 .setNegativeButton(getString(R.string.text_cancel), null)
                 .show());
+
+        // moved from FileSenderTabFrament
+        IconButton toggleSpindle = view.findViewById(R.id.toggle_spindle);
+        toggleSpindle.setOnClickListener(this);
+        toggleSpindle.setOnLongClickListener(this);
 
         return view;
     }
@@ -283,6 +286,17 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
             case R.id.custom_button_4:
                 customButton(id, false);
                 break;
+            // moved from FileSenderTabFrament
+            case R.id.toggle_spindle:
+                sendRealTimeCommand(Overrides.CMD_TOGGLE_SPINDLE);
+                break;
+        }
+    }
+
+    private void sendRealTimeCommand(Overrides overrides){
+        Byte command = GrblUtils.getOverrideForEnum(overrides);
+        if(command != null){
+            fragmentInteractionListener.onGrblRealTimeCommandReceived(command);
         }
     }
 

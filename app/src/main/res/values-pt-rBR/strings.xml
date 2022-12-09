@@ -336,4 +336,10 @@
     <string name="text_warning_error_20">WARNING: You should not enable this unless you know what you are doing.</string>
     <string name="bluetooth_rationale">This app needs bluetooth connection to work</string>
     <string name="text_start_auto_z">AUTO Z</string>
+    <string name="text_torch_on">Torch {fa-toggle-on 16dp @color/colorAccent}</string>
+    <string name="text_torch_off">Torch {fa-toggle-off 18dp}</string>
+    <string name="text_torch_on_large">Torch {fa-toggle-on 24dp @color/colorAccent}</string>
+    <string name="text_torch_off_large">Torch {fa-toggle-off 24dp}</string>
+    <string name="bt_permission_granted">permissão Bluetooth concedida</string>
+    <string name="bt_permission_not_granted">Permissão Bluetooth não concedida</string>
 </resources>

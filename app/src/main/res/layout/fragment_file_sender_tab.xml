@@ -228,7 +228,7 @@
                 <TableRow>
                     <com.joanzapata.iconify.widget.IconButton
                         android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
-                        android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? @string/text_spindle_on : @string/text_spindle_off}'
+                        android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? @string/text_torch_on : @string/text_torch_off}'
                         android:id="@+id/toggle_spindle"
                         android:layout_weight="0.33"
                         android:gravity="center"
@@ -242,6 +242,7 @@
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"/>
 
                     <com.joanzapata.iconify.widget.IconButton
@@ -251,6 +252,7 @@
                         android:layout_weight="0.33"
                         android:layout_width="0dp"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"/>
                 </TableRow>
 

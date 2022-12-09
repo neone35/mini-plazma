@@ -213,15 +213,12 @@ public class ProbingTabFragment extends BaseFragment {
             probeStartPosition = machineStatus.getMachinePosition().getCordZ();
 
             // Wait for few milliseconds, just to make sure we got the parser state
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    String distanceMode = machineStatus.getParserState().distanceMode;
-                    String unitSelection = machineStatus.getParserState().unitSelection;
+            new Handler().postDelayed(() -> {
+                String distanceMode = machineStatus.getParserState().distanceMode;
+                String unitSelection = machineStatus.getParserState().unitSelection;
 
-                    fragmentInteractionListener.onGcodeCommandReceived("G38.3 Z" + distanceToProbe + " F" + probeFeedRate);
-                    fragmentInteractionListener.onGcodeCommandReceived(distanceMode + unitSelection);
-                }
+                fragmentInteractionListener.onGcodeCommandReceived("G38.3 Z" + distanceToProbe + " F" + probeFeedRate);
+                fragmentInteractionListener.onGcodeCommandReceived(distanceMode + unitSelection);
             }, (Constants.GRBL_STATUS_UPDATE_INTERVAL + 100));
 
 
