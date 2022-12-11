@@ -162,7 +162,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
         for(int resourceId: new Integer[]{R.id.feed_override_fine_minus, R.id.feed_override_fine_plus, R.id.feed_override_coarse_minus, R.id.feed_override_coarse_plus,
             R.id.spindle_override_fine_minus, R.id.spindle_override_fine_plus, R.id.spindle_override_coarse_minus, R.id.spindle_override_coarse_plus,
             R.id.rapid_overrides_reset, R.id.rapid_override_medium, R.id.rapid_override_low,
-            R.id.toggle_spindle, R.id.toggle_flood_coolant, R.id.toggle_mist_coolant }){
+            R.id.toggle_torch, R.id.toggle_flood_coolant, R.id.toggle_mist_coolant }){
             IconButton iconButton = view.findViewById(resourceId);
             iconButton.setOnClickListener(this);
             iconButton.setOnLongClickListener(this);

@@ -213,9 +213,9 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 .show());
 
         // moved from FileSenderTabFrament
-        IconButton toggleSpindle = view.findViewById(R.id.toggle_spindle);
-        toggleSpindle.setOnClickListener(this);
-        toggleSpindle.setOnLongClickListener(this);
+        IconButton toggleTorch = view.findViewById(R.id.toggle_torch);
+        toggleTorch.setOnClickListener(this);
+        toggleTorch.setOnLongClickListener(this);
 
         return view;
     }
