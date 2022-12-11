@@ -332,13 +332,13 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.joanzapata.iconify.widget.IconButton
-                    android:id="@+id/toggle_spindle"
+                    android:id="@+id/toggle_torch"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:enabled="@{!machineStatus.state.equals(machineStatus.STATE_NOT_CONNECTED)}"
                     android:gravity="center"
-                    android:text='@{(machineStatus.accessoryStates.spindleCCW || machineStatus.accessoryStates.spindleCW) ? @string/text_torch_on : @string/text_torch_off}'
+                    android:text='@{machineStatus.accessoryStates.spindleCCW ? @string/text_torch_on : @string/text_torch_off}'
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

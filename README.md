@@ -1,8 +1,6 @@
 # Grbl Controller
 ### Compact android mobile application for GRBL powered CNC machine.
 
-![Axis Control](https://raw.githubusercontent.com/zeevy/grblcontroller/master/doc/screenshots/JoggingTab.png "Axis Controll Panel") ![File Streaming](https://raw.githubusercontent.com/zeevy/grblcontroller/master/doc/screenshots/FileSenderTab.png "File Streaming Panel")
-
 #### Features:
 - Supports both Bluetooth and USB connections
 - GRBL 1.1 real time feed, spindle and rapid overrides support.

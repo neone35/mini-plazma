@@ -1,7 +1,9 @@
 package com.arturmaslov.miniplazma;
 
-import static com.arturmaslov.miniplazma.Constants.BT_PERMISSIONS;
-import static com.arturmaslov.miniplazma.Constants.BT_PERMISSIONS_SETTING;
+import static com.arturmaslov.miniplazma.model.Constants.BT_PERMISSIONS_SETTING;
+import static com.arturmaslov.miniplazma.model.Constants.READ_PERMISSIONS_SETTING;
+import static com.arturmaslov.miniplazma.model.Constants.REQUEST_BT_PERMISSIONS;
+import static com.arturmaslov.miniplazma.model.Constants.REQUEST_READ_PERMISSIONS;
 
 import android.Manifest;
 import android.app.Activity;
@@ -154,19 +156,34 @@ public class PermissionHelper {
     public static void requestBtPermission(Context ctx, Activity act) {
         String[] perms = new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN};
         if (!PermissionHelper.hasPermissions(ctx, perms)) {
-            PermissionHelper.requestPermissions(act, perms, BT_PERMISSIONS);
+            PermissionHelper.requestPermissions(act, perms, REQUEST_BT_PERMISSIONS);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static void requestStoragePermission(Context ctx, Activity act) {
+        String[] perms = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (!PermissionHelper.hasPermissions(ctx, perms)) {
+            PermissionHelper.requestPermissions(act, perms, REQUEST_READ_PERMISSIONS);
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     public static void showBtPermissionRationale(Context ctx, Activity act) {
         String[] perms = new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN};
-        PermissionHelper.showDialog(ctx, "Permission", "App requires bluetooth permission.", "OK", new PermissionHelper.OnDialogCloseListener() {
-            @Override
-            public void onDialogClose(DialogInterface dialog, int buttonType) {
-                if (buttonType == PermissionHelper.OnDialogCloseListener.TYPE_POSITIVE) {
-                    PermissionHelper.requestPermissions(act, perms, BT_PERMISSIONS);
-                }
+        PermissionHelper.showDialog(ctx, "Permission", "App requires bluetooth permission.", "OK", (dialog, buttonType) -> {
+            if (buttonType == OnDialogCloseListener.TYPE_POSITIVE) {
+                PermissionHelper.requestPermissions(act, perms, REQUEST_BT_PERMISSIONS);
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static void showStoragePermissionRationale(Context ctx, Activity act) {
+        String[] perms = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        PermissionHelper.showDialog(ctx, "Permission", "App requires external storage permission.", "OK", (dialog, buttonType) -> {
+            if (buttonType == OnDialogCloseListener.TYPE_POSITIVE) {
+                PermissionHelper.requestPermissions(act, perms, REQUEST_READ_PERMISSIONS);
             }
         });
     }
@@ -176,6 +193,15 @@ public class PermissionHelper {
         PermissionHelper.showDialog(ctx, "Permission Setting", "Grant bluetooth permission from setting screen.", "OK", (dialog, buttonType) -> {
             if (buttonType == PermissionHelper.OnDialogCloseListener.TYPE_POSITIVE) {
                 PermissionHelper.openSettingScreen(act, BT_PERMISSIONS_SETTING);
+            }
+        });
+    }
+
+    public static void onStoragePermissionDenied(Context ctx, Activity act) {
+        Toast.makeText(ctx, R.string.read_storage_not_granted, Toast.LENGTH_SHORT).show();
+        PermissionHelper.showDialog(ctx, "Permission Setting", "Grant storage read permission from setting screen.", "OK", (dialog, buttonType) -> {
+            if (buttonType == PermissionHelper.OnDialogCloseListener.TYPE_POSITIVE) {
+                PermissionHelper.openSettingScreen(act, READ_PERMISSIONS_SETTING);
             }
         });
     }

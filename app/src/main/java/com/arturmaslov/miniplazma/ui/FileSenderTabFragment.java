@@ -26,7 +26,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -39,6 +40,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arturmaslov.miniplazma.PermissionHelper;
+import com.arturmaslov.miniplazma.databinding.FragmentJoggingTabBinding;
 import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
@@ -76,6 +79,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     private MachineStatusListener machineStatus;
     private FileSenderListener fileSender;
     private EnhancedSharedPreferences sharedPref;
+    private FragmentFileSenderTabBinding binding = null;
 
     public FileSenderTabFragment() {}
 
@@ -106,31 +110,26 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        FragmentFileSenderTabBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_file_sender_tab, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_file_sender_tab, container, false);
         binding.setMachineStatus(machineStatus);
         binding.setFileSender(fileSender);
         View view = binding.getRoot();
 
         IconTextView selectGcodeFile = view.findViewById(R.id.select_gcode_file);
-        selectGcodeFile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(hasExternalStorageReadPermission()){
-                    getFilePicker();
-                }else{
-                    askExternalReadPermission();
-                }
+        selectGcodeFile.setOnClickListener(view1 -> {
+            String[] perms = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            if (PermissionHelper.hasPermissions(this.requireActivity(), perms)) {
+                getFilePicker();
+            } else {
+                askReadPermission();
             }
         });
 
         final IconButton enableChecking = view.findViewById(R.id.enable_checking);
-        enableChecking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_CHECK)){
-                    stopFileStreaming();
-                    fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_TOGGLE_CHECK_MODE_COMMAND);
-                }
+        enableChecking.setOnClickListener(view12 -> {
+            if(machineStatus.getState().equals(Constants.MACHINE_STATUS_IDLE) || machineStatus.getState().equals(Constants.MACHINE_STATUS_CHECK)){
+                stopFileStreaming();
+                fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.GRBL_TOGGLE_CHECK_MODE_COMMAND);
             }
         });
 
@@ -346,8 +345,21 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
                 sendRealTimeCommand(Overrides.CMD_RAPID_OVR_RESET);
                 break;
 
-            case R.id.toggle_spindle:
-                sendRealTimeCommand(Overrides.CMD_TOGGLE_SPINDLE);
+//            case R.id.toggle_spindle:
+//                sendRealTimeCommand(Overrides.CMD_TOGGLE_SPINDLE);
+//                break;
+
+            case R.id.toggle_torch:
+                if (binding.toggleTorch != null) {
+                    if (!binding.toggleTorch.isEnabled()) {
+                        fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.MCODE_SPINDLE_ON_CCW);
+                        binding.toggleTorch.setEnabled(true);
+                    }
+                    else {
+                        fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.MCODE_SPINDLE_ON_CW);
+                        binding.toggleTorch.setEnabled(false);
+                    }
+                }
                 break;
 
             case R.id.toggle_flood_coolant:
@@ -451,35 +463,29 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
     }
 
-    private Boolean hasExternalStorageReadPermission(){
-        boolean hasPermission = true;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(requireActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                hasPermission = false;
-            }
-        }
-        return hasPermission;
-    }
 
-    private void askExternalReadPermission(){
+    private void askReadPermission(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.REQUEST_READ_PERMISSIONS);
+            PermissionHelper.requestStoragePermission(this.requireActivity(), this.requireActivity());
         }else{
-            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_external_read_permission), true, true));
+            getFilePicker();
         }
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if(requestCode == Constants.REQUEST_READ_PERMISSIONS){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                getFilePicker();
-            }else{
-                EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_external_read_permission), true, true));
+        if (!PermissionHelper.hasPermissions(this.requireActivity(), permissions)) {
+            if (PermissionHelper.shouldShowPermissionRationale(this, permissions)) {
+                PermissionHelper.showStoragePermissionRationale(this.requireActivity(), this.requireActivity());
+            } else {
+                PermissionHelper.onStoragePermissionDenied(this.requireActivity(), this.requireActivity());
             }
+            EventBus.getDefault().post(new UiToastEvent(getString(R.string.text_no_external_read_permission), true, true));
+        } else {
+            getFilePicker();
         }
     }
 

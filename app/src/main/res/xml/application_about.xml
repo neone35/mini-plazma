@@ -18,11 +18,20 @@
 
     <Preference
         android:icon="@drawable/ic_live_help_black_36dp"
+        android:summary="linuxcnc.org"
+        android:title="Mcode Documentation">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://linuxcnc.org/docs/html/gcode/m-code.html"/>
+    </Preference>
+
+    <Preference
+        android:icon="@drawable/ic_live_help_black_36dp"
         android:summary="interface wiki | documentation"
         android:title="Application Usage">
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="https://zeevy.github.io/grblcontroller" />
+            android:data="https://github.com/neone35/mini-plazma" />
     </Preference>
 
     <Preference
@@ -31,35 +40,35 @@
         android:title="Source / Issue tracker">
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="https://github.com/zeevy/grblcontroller" />
+            android:data="https://github.com/neone35/mini-plazma" />
     </Preference>
 
-    <Preference
-        android:icon="@drawable/ic_star_half_black_36dp"
-        android:summary="@string/text_app_rating_summary"
-        android:title="@string/text_app_rating">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:data="market://details?id=com.arturmaslov.miniplazma"/>
-    </Preference>
+<!--    <Preference-->
+<!--        android:icon="@drawable/ic_star_half_black_36dp"-->
+<!--        android:summary="@string/text_app_rating_summary"-->
+<!--        android:title="@string/text_app_rating">-->
+<!--        <intent-->
+<!--            android:action="android.intent.action.VIEW"-->
+<!--            android:data="market://details?id=com.arturmaslov.miniplazma"/>-->
+<!--    </Preference>-->
 
-    <Preference
-        android:key="buy_grbl_controller_plus"
-        android:icon="@drawable/ic_attach_money_black_36dp"
-        android:summary="@string/text_buy_app_summary"
-        android:title="@string/text_buy_app">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:data="market://details?id=com.arturmaslov.miniplazma.plus"/>
-    </Preference>
+<!--    <Preference-->
+<!--        android:key="buy_grbl_controller_plus"-->
+<!--        android:icon="@drawable/ic_attach_money_black_36dp"-->
+<!--        android:summary="@string/text_buy_app_summary"-->
+<!--        android:title="@string/text_buy_app">-->
+<!--        <intent-->
+<!--            android:action="android.intent.action.VIEW"-->
+<!--            android:data="market://details?id=com.arturmaslov.miniplazma.plus"/>-->
+<!--    </Preference>-->
 
     <Preference
         android:icon="@drawable/ic_contact_mail_black_36dp"
-        android:summary="zeevy@outlook.in"
+        android:summary="arturthemaslov@gmail.com"
         android:title="Contact Developer">
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="mailto:zeevy@outlook.in?subject=Grbl Controller"/>
+            android:data="mailto:arturthemaslov@gmail.com?subject=Mini Plazma"/>
     </Preference>
 
 </PreferenceScreen>

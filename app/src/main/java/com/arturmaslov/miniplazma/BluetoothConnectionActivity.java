@@ -91,13 +91,10 @@ public class BluetoothConnectionActivity extends GrblActivity {
 
         grblServiceMessageHandler = new BluetoothConnectionActivity.GrblServiceMessageHandler(this);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (grblBluetoothSerialService != null && grblBluetoothSerialService.getState() == GrblBluetoothSerialService.STATE_NONE && bluetoothAdapter.isEnabled() && sharedPref.getBoolean(getString(R.string.preference_auto_connect), false)) {
-                    String lastAddress = sharedPref.getString(getString(R.string.preference_last_connected_device), null);
-                    connectToDevice(lastAddress);
-                }
+        new Handler().postDelayed(() -> {
+            if (grblBluetoothSerialService != null && grblBluetoothSerialService.getState() == GrblBluetoothSerialService.STATE_NONE && bluetoothAdapter.isEnabled() && sharedPref.getBoolean(getString(R.string.preference_auto_connect), false)) {
+                String lastAddress = sharedPref.getString(getString(R.string.preference_last_connected_device), null);
+                connectToDevice(lastAddress);
             }
         }, 1500);
 
@@ -331,6 +328,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
         if(grblBluetoothSerialService != null) grblBluetoothSerialService.serialWriteString(command);
     }
 
+    @Override
     public void onGrblRealTimeCommandReceived(byte command) {
         if(grblBluetoothSerialService != null) grblBluetoothSerialService.serialWriteByte(command);
     }

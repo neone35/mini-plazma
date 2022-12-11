@@ -403,6 +403,7 @@
     <string name="bluetooth_rationale">This app needs bluetooth connection to work</string>
     <string name="bt_permission_granted">Bluetooth permission granted</string>
     <string name="bt_permission_not_granted">Bluetooth permission not granted</string>
+    <string name="read_storage_not_granted">Read storage permission not granted</string>
 
 
 </resources>

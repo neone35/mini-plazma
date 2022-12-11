@@ -76,6 +76,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     private CustomCommandsAsyncTask customCommandsAsyncTask;
     private Integer probeType;
     private Double probeStartPosition = null;
+    private FragmentJoggingTabBinding binding = null;
 
     public JoggingTabFragment() {}
 
@@ -116,7 +117,7 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        FragmentJoggingTabBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_jogging_tab, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_jogging_tab, container, false);
         binding.setMachineStatus(machineStatus);
         View view = binding.getRoot();
 
@@ -287,16 +288,18 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
                 customButton(id, false);
                 break;
             // moved from FileSenderTabFrament
-            case R.id.toggle_spindle:
-                sendRealTimeCommand(Overrides.CMD_TOGGLE_SPINDLE);
+            case R.id.toggle_torch:
+                if (binding.toggleTorch != null) {
+                    if (!binding.toggleTorch.isEnabled()) {
+                        fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.MCODE_SPINDLE_ON_CCW);
+                        binding.toggleTorch.setEnabled(true);
+                    }
+                    else {
+                        fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.MCODE_SPINDLE_ON_CW);
+                        binding.toggleTorch.setEnabled(false);
+                    }
+                }
                 break;
-        }
-    }
-
-    private void sendRealTimeCommand(Overrides overrides){
-        Byte command = GrblUtils.getOverrideForEnum(overrides);
-        if(command != null){
-            fragmentInteractionListener.onGrblRealTimeCommandReceived(command);
         }
     }
 

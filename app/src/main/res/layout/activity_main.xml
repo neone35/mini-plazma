@@ -38,7 +38,8 @@
                 android:layout_height="?attr/actionBarSize"
                 android:src="@drawable/splash_logo"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="app logo" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -213,6 +214,7 @@
 
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/tab_layout"
+                            app:tabIndicatorColor="@color/colorAccent"
                             android:layout_width="match_parent"
                             android:layout_height="36dp">
 
