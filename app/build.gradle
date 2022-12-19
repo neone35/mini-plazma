@@ -87,7 +87,7 @@ dependencies {
     implementation 'com.github.satyan:sugar:1.5'
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-
+    implementation 'com.orhanobut:logger:2.2.0'
     annotationProcessor 'androidx.databinding:databinding-compiler:7.3.1'
 
     testImplementation 'junit:junit:4.13.2'

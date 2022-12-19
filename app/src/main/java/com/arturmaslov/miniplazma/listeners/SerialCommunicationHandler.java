@@ -222,9 +222,9 @@ public abstract class SerialCommunicationHandler extends Handler {
 
         if(!enabledPinsChanged) machineStatus.setEnabledPins("");
 
-        if(hasOverrides){
-            if(!accessoryStatesChanged) machineStatus.setAccessoryStates("");
-        }
+//        if(hasOverrides){
+//            if(!accessoryStatesChanged) machineStatus.setAccessoryStates("");
+//        }
 
     }
 

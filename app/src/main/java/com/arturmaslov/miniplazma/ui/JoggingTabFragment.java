@@ -43,6 +43,7 @@ import android.widget.TableRow;
 import com.arturmaslov.miniplazma.model.Overrides;
 import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconToggleButton;
+import com.orhanobut.logger.Logger;
 import com.warkiz.widget.IndicatorSeekBar;
 import com.warkiz.widget.OnSeekChangeListener;
 import com.warkiz.widget.SeekParams;
@@ -290,13 +291,20 @@ public class JoggingTabFragment extends BaseFragment implements View.OnClickList
             // moved from FileSenderTabFrament
             case R.id.toggle_torch:
                 if (binding.toggleTorch != null) {
-                    if (!binding.toggleTorch.isEnabled()) {
+                    if(!machineStatus.getAccessoryStates().spindleCCW && !machineStatus.getAccessoryStates().spindleCW) { //initial state
+                        machineStatus.setAccessoryStates("C"); //switch CCW
                         fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.MCODE_SPINDLE_ON_CCW);
-                        binding.toggleTorch.setEnabled(true);
-                    }
-                    else {
+                        Logger.d("toggle_torch is enabled"); // M4/CCW
+                    } else if(machineStatus.getAccessoryStates().spindleCCW) { //on state (M4)
+                        machineStatus.setAccessoryStates("C"); //switch CCW
+                        machineStatus.setAccessoryStates("S"); //switch CW
                         fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.MCODE_SPINDLE_ON_CW);
-                        binding.toggleTorch.setEnabled(false);
+                        Logger.d("toggle_torch is disabled"); // M3/CCW
+                    } else if(machineStatus.getAccessoryStates().spindleCW) { //off state (M3)
+                        machineStatus.setAccessoryStates("S"); //switch CW
+                        machineStatus.setAccessoryStates("C"); //switch CCW
+                        fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.MCODE_SPINDLE_ON_CCW);
+                        Logger.d("toggle_torch is enabled"); // M4/CCW
                     }
                 }
                 break;

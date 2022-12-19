@@ -62,6 +62,8 @@ import com.arturmaslov.miniplazma.model.Constants;
 import com.arturmaslov.miniplazma.service.FileStreamerIntentService;
 import com.arturmaslov.miniplazma.service.GrblBluetoothSerialService;
 import com.arturmaslov.miniplazma.util.GrblUtils;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 public class BluetoothConnectionActivity extends GrblActivity {
 
@@ -75,6 +77,7 @@ public class BluetoothConnectionActivity extends GrblActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (BuildConfig.DEBUG) Logger.addLogAdapter(new AndroidLogAdapter());
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
             PermissionHelper.requestBtPermission(this, BluetoothConnectionActivity.this);

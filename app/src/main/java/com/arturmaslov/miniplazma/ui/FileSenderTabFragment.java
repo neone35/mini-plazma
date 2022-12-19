@@ -72,6 +72,7 @@ import com.arturmaslov.miniplazma.model.GcodeCommand;
 import com.arturmaslov.miniplazma.model.Overrides;
 import com.arturmaslov.miniplazma.service.FileStreamerIntentService;
 import com.arturmaslov.miniplazma.util.GrblUtils;
+import com.orhanobut.logger.Logger;
 
 public class FileSenderTabFragment extends BaseFragment implements View.OnClickListener, View.OnLongClickListener{
 
@@ -351,13 +352,20 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
             case R.id.toggle_torch:
                 if (binding.toggleTorch != null) {
-                    if (!binding.toggleTorch.isEnabled()) {
+                    if(!machineStatus.getAccessoryStates().spindleCCW && !machineStatus.getAccessoryStates().spindleCW) { //initial state
+                        machineStatus.setAccessoryStates("C"); //switch CCW
                         fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.MCODE_SPINDLE_ON_CCW);
-                        binding.toggleTorch.setEnabled(true);
-                    }
-                    else {
+                        Logger.d("toggle_torch is enabled"); // M4/CCW
+                    } else if(machineStatus.getAccessoryStates().spindleCCW) { //on state (M4)
+                        machineStatus.setAccessoryStates("C"); //switch CCW
+                        machineStatus.setAccessoryStates("S"); //switch CW
                         fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.MCODE_SPINDLE_ON_CW);
-                        binding.toggleTorch.setEnabled(false);
+                        Logger.d("toggle_torch is disabled"); // M3/CCW
+                    } else if(machineStatus.getAccessoryStates().spindleCW) { //off state (M3)
+                        machineStatus.setAccessoryStates("S"); //switch CW
+                        machineStatus.setAccessoryStates("C"); //switch CCW
+                        fragmentInteractionListener.onGcodeCommandReceived(GrblUtils.MCODE_SPINDLE_ON_CCW);
+                        Logger.d("toggle_torch is enabled"); // M4/CCW
                     }
                 }
                 break;
