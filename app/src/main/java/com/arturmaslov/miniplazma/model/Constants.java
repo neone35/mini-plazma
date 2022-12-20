@@ -34,7 +34,7 @@ public interface Constants {
     int MESSAGE_WRITE                   = 3;
     int MESSAGE_DEVICE_NAME             = 4;
     int MESSAGE_TOAST                   = 5;
-    int REQUEST_READ_PERMISSIONS        = 6;
+    int REQUEST_STORAGE_PERMISSIONS     = 6;
     int PROBE_TYPE_NORMAL               = 7;
     int PROBE_TYPE_TOOL_OFFSET          = 8;
     int CONNECT_DEVICE_SECURE           = 9;
@@ -42,7 +42,7 @@ public interface Constants {
     int FILE_PICKER_REQUEST_CODE        = 11;
     int REQUEST_BT_PERMISSIONS          = 12;
     int BT_PERMISSIONS_SETTING          = 13;
-    int READ_PERMISSIONS_SETTING        = 14;
+    int STORAGE_PERMISSIONS_SETTING     = 14;
 
     int CONSOLE_LOGGER_MAX_SIZE         = 256;
     double DEFAULT_JOGGING_FEED_RATE    = 2400.0;

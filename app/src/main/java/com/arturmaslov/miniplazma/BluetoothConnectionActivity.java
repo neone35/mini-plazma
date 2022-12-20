@@ -21,6 +21,9 @@
 
 package com.arturmaslov.miniplazma;
 
+import static com.arturmaslov.miniplazma.model.Constants.REQUEST_BT_PERMISSIONS;
+import static com.arturmaslov.miniplazma.model.Constants.REQUEST_STORAGE_PERMISSIONS;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,6 +36,7 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -43,6 +47,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
+import com.arturmaslov.miniplazma.ui.FileSenderTabFragment;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
@@ -108,13 +113,25 @@ public class BluetoothConnectionActivity extends GrblActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (!PermissionHelper.hasPermissions(this, permissions)) {
-            if (PermissionHelper.shouldShowPermissionRationale(this, permissions)) {
-                PermissionHelper.showBtPermissionRationale(this, BluetoothConnectionActivity.this);
-            } else {
-                PermissionHelper.onBtPermissionDenied(this, BluetoothConnectionActivity.this);
-            }
+        switch (requestCode) {
+            case REQUEST_BT_PERMISSIONS:
+                if (!PermissionHelper.hasPermissions(this, permissions)) {
+                    if (PermissionHelper.shouldShowPermissionRationale(this, permissions)) {
+                        PermissionHelper.showBtPermissionRationale(this, BluetoothConnectionActivity.this);
+                    } else {
+                        PermissionHelper.onBtPermissionDenied(this, BluetoothConnectionActivity.this);
+                    }
+                }
+            case REQUEST_STORAGE_PERMISSIONS:
+                if (!PermissionHelper.hasPermissions(this, permissions)) {
+                    if (PermissionHelper.shouldShowPermissionRationale(this, permissions)) {
+                        PermissionHelper.showStoragePermissionRationale(this, BluetoothConnectionActivity.this);
+                    } else {
+                        PermissionHelper.onStoragePermissionDenied(this, BluetoothConnectionActivity.this);
+                    }
+                }
         }
+
     }
 
     @Override

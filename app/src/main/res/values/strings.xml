@@ -404,6 +404,7 @@
     <string name="bt_permission_granted">Bluetooth permission granted</string>
     <string name="bt_permission_not_granted">Bluetooth permission not granted</string>
     <string name="read_storage_not_granted">Read storage permission not granted</string>
+    <string name="access_all_files">Please allow access to all files</string>
 
 
 </resources>

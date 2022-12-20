@@ -21,27 +21,35 @@
 
 package com.arturmaslov.miniplazma.ui;
 
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
+
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Process;
 import androidx.annotation.NonNull;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.arturmaslov.miniplazma.PermissionHelper;
-import com.arturmaslov.miniplazma.databinding.FragmentJoggingTabBinding;
 import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
@@ -118,12 +126,24 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
 
         IconTextView selectGcodeFile = view.findViewById(R.id.select_gcode_file);
         selectGcodeFile.setOnClickListener(view1 -> {
-            String[] perms = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-            if (PermissionHelper.hasPermissions(this.requireActivity(), perms)) {
-                getFilePicker();
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                if (Environment.isExternalStorageManager()) {
+                    getFilePicker();
+                } else {
+                    EventBus.getDefault().post(new UiToastEvent(getString(R.string.access_all_files), true, true));
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    intent.setData(Uri.fromParts("package", requireContext().getPackageName(), null)); //where to return
+                    startActivity(intent);
+                }
             } else {
-                askReadPermission();
+                String[] storagePerms = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+                if (PermissionHelper.hasPermissions(this.requireActivity(), storagePerms)) {
+                    getFilePicker();
+                } else {
+                    askStoragePermission();
+                }
             }
+
         });
 
         final IconButton enableChecking = view.findViewById(R.id.enable_checking);
@@ -472,7 +492,7 @@ public class FileSenderTabFragment extends BaseFragment implements View.OnClickL
     }
 
 
-    private void askReadPermission(){
+    private void askStoragePermission(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PermissionHelper.requestStoragePermission(this.requireActivity(), this.requireActivity());
         }else{
